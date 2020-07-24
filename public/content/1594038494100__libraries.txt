@@ -1,0 +1,16 @@
+https://pypi.org/project/librosa/
+
+After installing librosa, when you run it you will get sometype of numba.core.decorators error.
+when you have that error type "pip3 freeze" and it would give you the list of all libraris installed. search for numba and check out it's version
+the version will be someother. try uninstalling it and install number version 0.48.0 by doing "pip3 install numba==0.48.0"
+
+https://pypi.org/project/tqdm/
+https://pypi.org/project/noisereduce/
+https://pypi.org/project/SpeechRecognition/
+
+
+The above mentioned libraries are somewhat unique, the remaining libraries are standard libraries that you can install easily.
+for speechrecognition, kindly read it's documentation that is available on the link.
+
+NOTE : When you set these up, kindly arrage a session for me with the testers so, i can guide them for best accuracu.
+Thanks.
