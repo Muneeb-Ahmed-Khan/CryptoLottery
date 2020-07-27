@@ -105,27 +105,32 @@ Route::get('/principal', function(){
 /*Only Company can use it. any authorized/unauthorized person that uses it will be redirected to Authenticate.php Middleware
 and it will return it to the ReturnToUnauthorizedPage route and that will redirect it accoring to it's gurad */
 Route::group(['middleware' => ['auth:admin','verified']], function () {
+    
     Route::get('/admin', 'AdminController@Dashboard');
     Route::post('/admin', 'AdminController@ManageForm')->name('ManageLottery');
 
-    Route::get('/admin/users', 'AdminController@ShowUsers');
+    Route::get('/admin/{lotteryId}', 'AdminController@ShowLotteryDetails');
+    Route::post('/admin/{lotteryId}', 'AdminController@OpenLottery');
     
-    Route::get('/admin/inbox', 'AdminController@Inbox');
-    Route::post('/admin/inbox', 'AdminController@ManageFormsInbox')->name('ManageFormsInbox');
 
-
-    Route::get('/admin/form/view/{formId}', 'AdminController@ViewForm');
+    // Route::get('/admin/users', 'AdminController@ShowUsers');
     
-    Route::post('/admin/deployform', 'AdminController@DeployForm');
-    Route::post('/admin/exceldownloadHelper', 'AdminController@ExcelDownloadHelper');
+    // Route::get('/admin/inbox', 'AdminController@Inbox');
+    // Route::post('/admin/inbox', 'AdminController@ManageFormsInbox')->name('ManageFormsInbox');
 
 
-    Route::get('/admin/form/{formId}', 'AdminController@EditForm')->name('Editorm');
-    Route::post('/admin/form/{formId}', 'AdminController@UpdateForm')->name('UpdateForm');
+    // Route::get('/admin/form/view/{formId}', 'AdminController@ViewForm');
+    
+    // Route::post('/admin/deployform', 'AdminController@DeployForm');
+    // Route::post('/admin/exceldownloadHelper', 'AdminController@ExcelDownloadHelper');
 
-    Route::get('/admin/condition/{formId}', 'AdminController@ConditionalLogic');
 
-    Route::get( '/download/{filename}', 'AdminController@download');
+    // Route::get('/admin/form/{formId}', 'AdminController@EditForm')->name('Editorm');
+    // Route::post('/admin/form/{formId}', 'AdminController@UpdateForm')->name('UpdateForm');
+
+    // Route::get('/admin/condition/{formId}', 'AdminController@ConditionalLogic');
+
+    // Route::get( '/download/{filename}', 'AdminController@download');
 
 });
 
@@ -134,18 +139,20 @@ Route::group(['middleware' => ['auth:admin','verified']], function () {
 and it will return it to the ReturnToUnauthorizedPage route and that will redirect it accoring to it's gurad */
 Route::group(['middleware' => ['auth:user','verified']], function () {
     Route::get('/user', 'UserController@Dashboard');
-    Route::get('/user/showforms', 'UserController@ShowForms');
-    Route::get('/user/publishedforms', 'UserController@ShowPublishedForms');
-    Route::get('/user/savedforms', 'UserController@ShowSavedForms');
+    Route::get('/user/{lotteryId}', 'UserController@ShowLotteryDetails');
+    Route::get('/user/{lotteryId}/buyTicket', 'UserController@BuyLottery');
+    
+    // Route::get('/user/publishedforms', 'UserController@ShowPublishedForms');
+    // Route::get('/user/savedforms', 'UserController@ShowSavedForms');
 
-    Route::get('/user/form/view/{formId}', 'UserController@ShowViewOfSentForm');
+    // Route::get('/user/form/view/{formId}', 'UserController@ShowViewOfSentForm');
 
-    Route::get('/user/form/{formId}', 'UserController@UseForm');
+    // Route::get('/user/form/{formId}', 'UserController@UseForm');
 
-    Route::post('/user/form/save/{formId}', 'UserController@SaveForm');
-    Route::post('/user/form/send/{formId}', 'UserController@SendForm');
+    // Route::post('/user/form/save/{formId}', 'UserController@SaveForm');
+    // Route::post('/user/form/send/{formId}', 'UserController@SendForm');
 
-    Route::get( '/download/{filename}', 'UserController@download');
+    // Route::get( '/download/{filename}', 'UserController@download');
 });
 
 

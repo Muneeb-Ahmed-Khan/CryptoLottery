@@ -17,6 +17,7 @@ class CreateLotteriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->string('admin_id', 100);
+            $table->decimal('cost_of_lottery', 10, 10);  // 10 digits allowed to left of . and 10 digits allowed to right
             $table->string('no_of_winners', 100);
             $table->string('winners', 100)->nullable();
             $table->integer('max_participants')->unsigned();

@@ -10,19 +10,19 @@
         <div class="mc-stats-detail">
             <div class="row">
 
-            @foreach(array(["Muneeb"], ['Ahmed']) as $admin)
+            @foreach($lotteries as $lottery)
                 <div class="col-lg-4 mcs-balance">
                     <div class="mbox">
                         <div class="mbox-title">
                             <div class="s-title">
-                                <h5>1</h5>
+                                <h5>{{$lottery->id}}</h5>
                             </div>
                         </div>
                         <div class="mbox-content mbox-number">
-                            <span class="highlight">MUNEEB</span>
+                            <img src="{{ '/'.$lottery->product_picture }}" height="200px" width="200px"/>
                         </div>
                         <div class="mbox-link">
-                            <a href="/company" title="Admin">Admin <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a>
+                            <a href="/admin/{{ $lottery->id }}" title="Admin">{{$lottery->name}} <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                 </div>
@@ -45,12 +45,17 @@
                 </div>
                 <div class="modal-body">
                     
-                    <form class="sp-form" id="login-form-1" method="post" action="{{ route('ManageLottery') }}">
+                    <form class="sp-form" id="login-form-1" method="post" enctype="multipart/form-data" action="{{ route('ManageLottery') }}">
                         @csrf
                         
                         <!-- Name of Product -->
                         <div class="form-group">
                             <input name="name" type="text"placeholder="Product Name..." class="form-control" autocomplete="off" required  >
+                        </div>
+
+                        <!-- Cost of Product -->
+                        <div class="form-group">
+                            <input name="cost_of_lottery" type="number" step="0.0000000001" min="0" max="5" placeholder="BTC Amount..." class="form-control" autocomplete="off" required  >
                         </div>
 
                         <!-- Maximum Paticipants of Product -->
@@ -60,7 +65,7 @@
 
                         <!-- No. of Winners when lottery is done of Product -->
                         <div class="form-group">
-                            <input name="no_of_winners" type="number" min="1" placeholder="Maximum Paticipants..." class="form-control" autocomplete="off" required  >
+                            <input name="no_of_winners" type="number" min="1" placeholder="No of Winners..." class="form-control" autocomplete="off" required  >
                         </div>
 
                         <!-- Tickets per Participant of Product -->
@@ -70,7 +75,7 @@
 
                         <!--Picture of Product -->
                         <div class="form-group">
-                            <input name="picture" type="file" accept="image/*" class="form-control" autocomplete="off" required  >
+                            <input name="files" type="file" accept="image/*" class="form-control" autocomplete="off" required  >
                         </div>
 
                         <button id="login-submit" name="AddLottery" type="submit" class="btn btn-success btn-block mt20" style="background: #3b8de3 !important;">Add Product</button>

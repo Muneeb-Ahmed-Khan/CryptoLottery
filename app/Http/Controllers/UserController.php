@@ -21,8 +21,102 @@ class UserController extends Controller
 
     public function Dashboard()
     {
-        return view("user.dashboard");
+        $lotteries = DB::table('lotteries')->where([
+            'isActive' => 1,
+            'winners' => null
+            ])->get();
+
+        
+        return view('user.dashboard')->with(['lotteries' => $lotteries]);
     }
+
+
+    //======================================================================
+    // Show Lottery Deitals by {lotteryID}
+    //======================================================================
+    public function ShowLotteryDetails(Request $request)
+    {
+        $lotteries = DB::table('lotteries')->where([
+            'isActive' => 1,
+            'id' => $request->route('lotteryId')
+            ])->get();
+        
+        $transactions = DB::table('transactions')->where([
+            'lottery_id' => $request->route('lotteryId'),
+            ])->get();
+
+        if(!$lotteries->isEmpty())
+        {
+            return view('user.lotteryDetail')->with(['lottery' => $lotteries, 'transactions' => $transactions]);
+        }
+
+        return redirect('/user')->withErrors(["WrongInput" => "No Lottery"]);
+    }
+
+
+    //======================================================================
+    // Buy Lottery by {lotteryID}
+    //======================================================================
+    public function BuyLottery(Request $request)
+    {
+
+        $lotteries = DB::table('lotteries')->where([
+            'isActive' => 1,
+            'id' => $request->route('lotteryId')
+            ])->get();
+        
+        $transactions = DB::table('transactions')->where([
+            'lottery_id' => $request->route('lotteryId'),
+            ])->count();
+
+        $myparticipation = DB::table('transactions')->where([
+            'lottery_id' => $request->route('lotteryId'),
+            'email' => Auth::user()->email
+            ])->count();
+        
+        // if($myparticipation >= $lotteries[0]->max_tickets)
+        // {
+        //     return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['info' => "Maximum Tickets Purchased"]);
+        // }
+        if($transactions >= $lotteries[0]->max_participants)
+        {
+            return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['info' => "Maximum Transaction Achieved"]);
+        }
+
+        $check = DB::table('transactions')->insert([
+
+            'username' => Auth::user()->name,
+            'email' => Auth::user()->email,
+            'lottery_id' => $request->route('lotteryId'),
+            'admin_id' => 1,
+            'transaction_token' => "TemporaryToken",
+            'created_at' => Carbon::now()
+
+        ]);
+
+        if($check == true)
+        {
+            return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['success' => "Bought SuccesFully"]);
+        }
+
+        return redirect('/user')->withErrors(["WrongInput" => "No Lottery"]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function ShowForms(Request $request)
     {

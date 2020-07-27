@@ -27,9 +27,6 @@
 .card-body {
     flex: 1 1 auto;
     padding: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 
@@ -48,95 +45,51 @@
     margin-bottom: 1rem;
     background-color: rgba(0,0,0,0);
 }
+
+.container
+{
+    padding :0px;
+    margin : 0px;
+}
 </style>
+
 
 <div id="main" class="main-padding main-dashboard extend">
 
 
+
     <div class="col-lg-custom">
-        <div class="main-card mb-3 card" style="height: -webkit-fill-available;">
-            <div class="card-body" >
-                
-            </div>
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h6 class="card-title">Active Lotteries</h6>
+                <table class="mb-0 table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Lottery Name</th>
+                            <th>Cost (BTC)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 0; ?>
+                        @foreach($lotteries as $lottery)
+                        <tr>
+                            <th scope="row"><?php $i = $i+1; echo $i; ?></th>
+                            <td>{{ $lottery->name }}</td>
+                            <td>{{ $lottery->cost_of_lottery }}</td>
+                            <td>
+                                <a type="button" style="float:right; padding:5px; " href="/user/{{ $lottery->id }}"  class="btn btn-primary">Details</a>
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
         </div>
     </div>
 
 
 </div>
-
-@if(!empty($errors))
-<script type="text/javascript" src="{{asset('/js/toastr.js')}}"></script>
-@foreach ($errors->all() as $error)
-    <script>
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
-    Command: toastr["error"]("{{$error}}");
-    </script>
-@endforeach
-@endif
-
-
-@if(session()->has('success'))
-<script type="text/javascript" src="{{asset('/js/toastr.js')}}"></script>
-<script>
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
-    Command: toastr["success"]("{{__(session('success'))}}");
-</script>
-@endif
-
-@if(session()->has('info'))
-<script type="text/javascript" src="{{asset('/js/toastr.js')}}"></script>
-<script>
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
-    Command: toastr["info"]("{{__(session('info'))}}");
-</script>
-@endif
 
 @endsection
