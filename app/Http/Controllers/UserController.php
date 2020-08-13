@@ -103,6 +103,32 @@ class UserController extends Controller
     }
 
 
+    public function settings(Request $request)
+    {
+        $record = DB::table('users')->select('address')->where([
+                'id' => Auth::user()->id, 
+                'email' => Auth::user()->email, 
+            ])->get();
+            
+        return view('user.settings')->with('address', $record[0]->address);
+    }
+
+    public function Updatesettings(Request $request)
+    {
+        $affected = DB::table('users') ->where([
+                    'id' => Auth::user()->id, 
+                    'email' => Auth::user()->email, 
+                ])->update([
+                    'address' => $request->input('address')
+                ]);
+
+        if($affected == 1)
+        {
+            return redirect('/settings')->with(['success' => "Address Updated Sucessfully."]);
+        }
+        return redirect('/settings');
+    }
+
 
 
 

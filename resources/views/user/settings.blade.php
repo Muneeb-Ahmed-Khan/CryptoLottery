@@ -57,86 +57,37 @@
 <div id="main" class="main-padding main-dashboard extend">
 
 
-
+    <script>
+        function updateFormField(event)
+        {
+            document.getElementById('address').value = event.value;
+        }
+    </script>
     <div class="col-lg-custom">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <h6 class="card-title">Lottery Picture</h6>
-            
+                <h6 class="card-title">Settings</h6>
+                
+                <br>
+                <span>{{ $address }}</span>
                 <div class="form-group">
-                    
-                    <div class="form-group" style=" float: left; width: 47%; height: 100%; text-align:center">
-                        <img src="{{ '/'.$lottery[0]->product_picture }}" style="height: 400px; max-width:100% ; margin-left: 20px;" alt="Lottery Image"/>
-                    </div>
-
-                    <div class="form-group" style=" float: right; width: 47%; height: 100%;">
-                        <h6 class="card-title">{{ $lottery[0]->name }}</h6>
-                        </br>
-
-
-                        <table class="mb-0 table">
-                            <thead>
-                                
-                            </thead>
-                            <tbody>
-
-                                <tr>
-                                    <td>Cost (BTC) </td> <td> <b>{{ $lottery[0]->cost_of_lottery }}</b> </td>
-                                </tr>
-                                
-
-                                <tr>
-                                    <td>Current Progress (%) </td> <td> <progress id="file" value="{{ $transactions->count() }}" max="{{ $lottery[0]->max_participants }}"></progress> {{ ($transactions->count() / $lottery[0]->max_participants) * 100 }}% </td>
-                                </tr>
-                                
-                                <tr>
-                                    <td>Allowed Ticket per Participant</td> <td> {{ $lottery[0]->max_tickets }} </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        </br>
-                        <a type="button" style="width:100%;" href="/user/{{ $lottery[0]->id }}/buyTicket"  class="btn btn-primary">Buy</a>
-
-                    </div>
-                </div>
-            </div>
-
-            </br>
-            </br>
-            </br>
-            </br>
-
-
-            <div class="card-body">
-                <h6 class="card-title">Transactions</h6>
-                <table class="mb-0 table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th> </th>
-                            <th>Transactions ID</th>
-                            <th>Payment Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php $i = 0; ?>
-                        @foreach($transactions as $transaction)
-                        <tr>
-                            <th scope="row"><?php $i = $i+1; echo $i; ?></th>
-                            <td>{{ $transaction->username }}</td>
-                            <td> </td>
-                            <td>{{  $transaction->transaction_token  }}</td>
-                            <td>{{  $transaction->created_at  }}</td>
+                    <form class="sp-form" id="login-form-1" method="post" action="{{ url('/settings') }}">
+                        @csrf
                             
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            <div class="form-group">
+                                <label for="address"></label>
+                                <textarea  required autocomplete="off" class="form-control" onkeyup="updateFormField(this);" placeholder="Your Address..."></textarea>
+                            </div>
 
+                            <input hidden type="text" id="address" name="address" required autocomplete="off">
+                            
+
+                            <button type="submit" class="btn btn-success" style="float:right; background: #3b8de3 !important;">Update Address </button>
+                            
+                    </form>
+                </div>   
+                   
+            </div>  
         </div>
     </div>
 

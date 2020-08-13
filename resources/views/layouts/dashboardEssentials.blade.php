@@ -44,9 +44,14 @@
 
         <div class="header-welcome m-none active"><a href="/">Hi, {{ Auth::user()->name }} !</a></div>
         <div class="header-display">
-
+                
+            
 
             <div class="hd-logout">
+
+                <a href="/settings" title="User setting">
+                        <i class="icon-setting"></i>
+                </a>
 
                 <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -55,6 +60,7 @@
                                                      document.getElementById('logout-form').submit();">
                     <i class="icon-logout"></i>
                 </a>
+                
 
             </div>
             <div class="clearfix"></div>

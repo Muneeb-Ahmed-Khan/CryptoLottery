@@ -13,7 +13,6 @@
 
 Route::get('/', 'PagesController@index');
 Route::get('/index', 'PagesController@index');
-Route::get('/mobileIndex', 'PagesController@mobileIndex');
 Route::get('/about', 'PagesController@about');
 Route::get('/contact', 'PagesController@contact');
 Route::get('/copyright', 'PagesController@copyright');
@@ -21,6 +20,7 @@ Route::get('/dmca', 'PagesController@dmca');
 Route::get('/faq', 'PagesController@faq');
 Route::get('/register', 'PagesController@register');
 Route::get('/terms', 'PagesController@terms');
+Route::get('/freebitcoins', 'PagesController@freebitcoins');
 
 
 
@@ -141,7 +141,10 @@ Route::group(['middleware' => ['auth:user','verified']], function () {
     Route::get('/user', 'UserController@Dashboard');
     Route::get('/user/{lotteryId}', 'UserController@ShowLotteryDetails');
     Route::get('/user/{lotteryId}/buyTicket', 'UserController@BuyLottery');
-    
+
+    Route::get('/settings', 'UserController@settings');
+    Route::post('/settings', 'UserController@Updatesettings');
+
     // Route::get('/user/publishedforms', 'UserController@ShowPublishedForms');
     // Route::get('/user/savedforms', 'UserController@ShowSavedForms');
 

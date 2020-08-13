@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col col-login mx-auto">
                     <div class="text-center mb-6">
-                            <img src="{{asset('images/logo.jpeg')}}" width="120px"   alt="Homepage"/>
+                        <a href="/"><img src="{{asset('images/logo.jpeg')}}" width="120px"   alt="Homepage"/></a>
                     </div>
                     <form class="card"  method="post" action="{{ url('login') }}">
                     @csrf
@@ -45,17 +45,19 @@
 
                             <div class="form-group" hidden>
                                 <select required class="form-control" name="role">
-                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
                                 </select>
                             </div>
                             
-
+                            <a href="password/reset" class="pull-right md-forgot" title="Forgot password">Forgot password?</a>
+                            <div class="clearfix"></div>
+                            
                             <div class="form-footer">
-                                <button type="submit" class="btn btn-block" style="background-color:#084ab8;color:white"  name="loginForm">Login</button>
+                                <button type="submit" class="btn btn-block" style="background-color:#084ab8;color:white" name="loginForm">Login</button>
                             </div>
 
                             <div class="text-center text-muted mt-3">
-                                Don't have account yet? <a href="/register/admin">Register</a>
+                                Don't have account yet? <a href="/register">Register</a>
                             </div>
                         </div>
 

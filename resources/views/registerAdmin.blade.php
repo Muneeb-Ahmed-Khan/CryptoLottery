@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col col-login mx-auto">
                         <div class="text-center mb-6">
-                        <img src="{{asset('images/transparency.png')}}"  style=" height: 6rem !important;" alt="LOGO">
+                            <a href="/"><img src="{{asset('images/logo.jpeg')}}" width="120px"   alt="Homepage"/></a>
                         </div>
                         <form class="card"  method="POST" action="{{ url('register/admin') }}">
                         @csrf
@@ -58,10 +58,10 @@
                                 </div>
 
                                 <div class="form-footer">
-                                    <button type="submit" class="btn btn-danger btn-block" name="registerForm">Register</button>
+                                    <button type="submit" class="btn btn-block" style="background-color:#64bf09;color:white" name="registerForm">Register</button>
                                 </div>
                                 <div class="text-center text-muted mt-3">
-                                    Already have an account?  <a href="/">Login</a>
+                                    Already have an account?  <a href="/login/admin">Login</a>
                                 </div>
                             </div>
 

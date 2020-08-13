@@ -21,10 +21,11 @@ class PagesController extends Controller
         return view('index');
     }
 
-    public function mobileIndex()
+    public function freebitcoins()
     {
-        return view('mobileIndex');
+        return view('freebitcoins');
     }
+    
 
     public function about() {
         return view('about');
