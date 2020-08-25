@@ -31,6 +31,37 @@ class AdminController extends Controller
         return view('admin.dashboard')->with(['lotteries' => $lotteries]);
     }
 
+
+    //======================================================================
+    // Recent Opened Lotteries
+    //======================================================================
+
+    public function RecentLotteries(Request $request)
+    {
+        //Auto Pick Winners
+        $lotteries = DB::table('lotteries')->where([
+            'admin_id'=> Auth::user()->id
+            ])->whereNotNull('winners')->orderBy('updated_at', 'DESC')->get();
+
+        return view('admin.history')->with(['lotteries' => $lotteries]);
+    }
+
+    public function RecentLotteriesDetails(Request $request)
+    {
+        //Auto Pick Winners
+        $lotteries = DB::table('lotteries')->where([
+            'admin_id'=> Auth::user()->id,
+            'id' => $request->route('lotteryId')
+            ])->whereNotNull('winners')->orderBy('updated_at', 'DESC')->get();
+        
+        $wnrs = json_decode($lotteries[0]->winners);
+        
+        $users = DB::table('users')->whereIn('email', $wnrs)->get();
+        
+        return view('admin.historyDetails')->with(['winners' => $users, 'lotteries' =>  $lotteries ]);
+    }
+
+
     //======================================================================
     //for Adding/Deleting a Lottery
     //======================================================================
@@ -211,8 +242,38 @@ class AdminController extends Controller
                 }
                 else
                 {
-                    //Make This person Winner
-                    dd($request->input('winning_user'));
+                    
+                    //get the winners but (no_of_winners - 1) becasue we will add our custom person at that spot xD
+                    $transactions = DB::table('transactions')->where([
+                        'lottery_id' => $request->route('lotteryId'),
+                        ])->inRandomOrder()->limit((int)$lotteries[0]->no_of_winners - 1)->get();
+    
+                    $winners = array();
+    
+                    foreach ($transactions as $t) {
+                        array_push($winners, $t->email);
+                    }
+
+                    //Add our custom user
+                    array_push($winners, $request->input('winning_user'));
+
+    
+                    $check = DB::table('lotteries')->where([
+                        'id' => $request->route('lotteryId'),
+                        'admin_id'=> Auth::user()->id,
+                        'isActive' => 1
+                    ])->update([
+                        'winners' => $winners,
+                        'isActive' => 0,
+                        'updated_at' => Carbon::now()
+                    ]);
+        
+                    if($check)
+                    {
+                        //dd($transactions, $winners);
+                        return redirect('/admin')->with(["success" => "Lottery Opened Successfully"]);
+                    }
+                    return redirect()->intended('/admin')->withErrors(['error' => 'Lottery Opening Failed']);
                 }
             }
             
@@ -223,6 +284,72 @@ class AdminController extends Controller
         return redirect()->intended('/admin')->withErrors(['error' => 'Lottery Opening Failed']);
     }
     
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

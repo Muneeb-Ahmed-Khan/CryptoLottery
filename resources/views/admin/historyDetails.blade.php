@@ -53,46 +53,35 @@
 }
 </style>
 
-
 <div id="main" class="main-padding main-dashboard extend">
 
-
-<div class="container">
-        <a type="button" href="/user/history/recentLotteries" style='margin-top: 5px;' class="btn btn-success">Latest Draws</a>
-        <a type="button" href="/user/history/recentLotteries/mywinnings" style='margin-top: 5px;' class="btn btn-info">My Winnings</a>
-</div>
 <br>
+    
+
     <div class="col-lg-custom">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <h6 class="card-title">Active Lotteries</h6>
+                <h6 class="card-title">{{ $lotteries[0]->name }} ({{ $lotteries[0]->cost_of_lottery }} BTC)</h6>
                 <table class="mb-0 table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Lottery Name</th>
-                            <th>Cost (BTC)</th>
-                            <th></th>
+                            
+                            <th>Winner</th>
+                            <th>Address</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 0; ?>
-                        @foreach($lotteries as $lottery)
+                        @foreach($winners as $winer)
                         <tr>
-                            <th scope="row"><?php $i = $i+1; echo $i; ?></th>
-                            <td>{{ $lottery->name }}</td>
-                            <td>{{ $lottery->cost_of_lottery }}</td>
-                            <td>
-                                <a type="button" style="float:right; padding:5px; " href="/user/{{ $lottery->id }}"  class="btn btn-primary">Details</a>
-                            </td>
-
+                            <td>{{ $winer->email }}</td>
+                            <td>{{ $winer->address }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
         </div>
     </div>
-
 
 </div>
 

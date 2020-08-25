@@ -90,13 +90,14 @@
                                 </tr>
                                 
                                 <tr>
-                                    <td>Allowed Ticket per Participant</td> <td> {{ $lottery[0]->max_tickets }} </td>
+                                    <!-- <td>Allowed Ticket per Participant</td> <td> {{ $lottery[0]->max_tickets }} </td> -->
                                 </tr>
 
                             </tbody>
                         </table>
                         </br>
-                        <a type="button" style="width:100%;" href="/user/{{ $lottery[0]->id }}/buyTicket"  class="btn btn-primary">Buy</a>
+                        
+                        <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="width:100%;" class="btn btn-primary">Buy</a>
 
                     </div>
                 </div>
@@ -142,6 +143,62 @@
 
 
 </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Buy Lottery</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <img src="https://chart.googleapis.com/chart?cht=qr&amp;chl=bitcoin:13eRcbA58q4BXUZgt3pCg9zGKzhc3YU3pi&amp;message=ArthurShelby&amp;choe=UTF-8&amp;chs=200x200"><br>
+           
+                Address: <code style="color: red;">13eRcbA58q4BXUZgt3pCg9zGKzhc3YU3pi</code><br>
+                Status: <b><span id="message"></span></b><img src="{{asset('images/spin2.gif')}}" id="loading" style="width: 45px; display: none;"><br> <br>
+                COST (BTC): <b>{{ $lottery[0]->cost_of_lottery }}</b>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" onclick="call()" class="btn btn-primary">Check payment</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+    function call() 
+    {
+        
+        document.getElementById("loading").style.display = "block"; 
+        setTimeout(function(){ 
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //document.getElementById("message").innerHTML = this.responseText;
+                //document.getElementById("loading").style.display = "none";
+            }
+        };
+
+        xhttp.open("GET", "core.php?action=checkPayment&user=15077&address=13eRcbA58q4BXUZgt3pCg9zGKzhc3YU3pi", true);
+        xhttp.send();
+        window.location.href="/user/{{ $lottery[0]->id }}/buyTicket";
+        }, Math.floor((Math.random() * 10) + 1) * 1000);  
+    }
+</script>
+
+
+
 
 <script type="text/javascript" src="{{asset('/js/toastr.js')}}"></script>
 

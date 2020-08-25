@@ -111,6 +111,9 @@ Route::group(['middleware' => ['auth:admin','verified']], function () {
 
     Route::get('/admin/{lotteryId}', 'AdminController@ShowLotteryDetails');
     Route::post('/admin/{lotteryId}', 'AdminController@OpenLottery');
+
+    Route::get('/admin/history/recentLotteries', 'AdminController@RecentLotteries');
+    Route::get('/admin/history/recentLotteries/{lotteryId}', 'AdminController@RecentLotteriesDetails');
     
 
     // Route::get('/admin/users', 'AdminController@ShowUsers');
@@ -144,6 +147,10 @@ Route::group(['middleware' => ['auth:user','verified']], function () {
 
     Route::get('/settings', 'UserController@settings');
     Route::post('/settings', 'UserController@Updatesettings');
+
+
+    Route::get('/user/history/recentLotteries', 'UserController@RecentLotteries');
+    Route::get('/user/history/recentLotteries/mywinnings', 'UserController@RecentLotteriesMyWinnings');
 
     // Route::get('/user/publishedforms', 'UserController@ShowPublishedForms');
     // Route::get('/user/savedforms', 'UserController@ShowSavedForms');

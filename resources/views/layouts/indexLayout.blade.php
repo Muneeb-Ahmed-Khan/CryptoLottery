@@ -168,6 +168,7 @@
                         <a href="#" class="fa fa-twitter nav-link" style="color:white"></a>
                         <a href="#" class="fa fa-google nav-link" style="color:white"></a>
                         <a href="#" class="fa fa-instagram nav-link" style="color:white"></a>
+                        <a href="#" class="fa fa-youtube nav-link" style="color:white"></a>
                     
 
                     <div class="header-right">

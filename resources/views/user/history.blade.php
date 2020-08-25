@@ -53,26 +53,23 @@
 }
 </style>
 
-
 <div id="main" class="main-padding main-dashboard extend">
 
-
-<div class="container">
-        <a type="button" href="/user/history/recentLotteries" style='margin-top: 5px;' class="btn btn-success">Latest Draws</a>
-        <a type="button" href="/user/history/recentLotteries/mywinnings" style='margin-top: 5px;' class="btn btn-info">My Winnings</a>
-</div>
 <br>
+    
+
     <div class="col-lg-custom">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <h6 class="card-title">Active Lotteries</h6>
+                <h6 class="card-title">Recent Draws</h6>
                 <table class="mb-0 table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Lottery Name</th>
                             <th>Cost (BTC)</th>
-                            <th></th>
+                            <th>Total Participants</th>
+                            <th>Winners</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,8 +79,16 @@
                             <th scope="row"><?php $i = $i+1; echo $i; ?></th>
                             <td>{{ $lottery->name }}</td>
                             <td>{{ $lottery->cost_of_lottery }}</td>
+                            <td>{{ $lottery->max_participants }}</td>
                             <td>
-                                <a type="button" style="float:right; padding:5px; " href="/user/{{ $lottery->id }}"  class="btn btn-primary">Details</a>
+                                    <ul style="padding:0px;">
+                                    <?php
+                                            $wnrs = json_decode($lottery->winners);
+                                            for ($i=0; $i < count($wnrs) ; $i++) { 
+                                                echo '<li>'.$wnrs[$i].'</li>';
+                                            }
+                                    ?>
+                                    </ul>
                             </td>
 
                         </tr>
@@ -92,7 +97,6 @@
                 </table>
         </div>
     </div>
-
 
 </div>
 

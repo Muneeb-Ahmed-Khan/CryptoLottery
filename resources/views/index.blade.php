@@ -1,4 +1,4 @@
 @extends('layouts.indexLayout')
 @section('content')
-    <img src="{{asset('images/featured-bg.jpg')}}" width="100%" alt="Homepage"/>
+    <img src="{{asset('images/btcBk.png')}}" height="-webkit-fill-available" width="100%" alt="Homepage"/>
 @endsection

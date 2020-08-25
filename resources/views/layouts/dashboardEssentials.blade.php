@@ -49,9 +49,7 @@
 
             <div class="hd-logout">
 
-                <a href="/settings" title="User setting">
-                        <i class="icon-setting"></i>
-                </a>
+               
 
                 <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                     @csrf

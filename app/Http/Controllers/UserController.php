@@ -53,6 +53,50 @@ class UserController extends Controller
         return redirect('/user')->withErrors(["WrongInput" => "No Lottery"]);
     }
 
+    //=================================
+    // Open Lottery
+    //=================================
+    public function OpenLottery($lotteryID)
+    {
+
+        //Auto Pick Winners
+        $lotteries = DB::table('lotteries')->where([
+            'id' => $lotteryID,
+            'admin_id'=> Auth::user()->id,
+            'isActive' => 1
+            ])->get();
+
+
+
+        if(!$lotteries->isEmpty())
+        {
+            $transactions = DB::table('transactions')->where([
+                'lottery_id' => $lotteryID,
+                ])->inRandomOrder()->limit((int)$lotteries[0]->no_of_winners)->get();
+
+            $winners = array();
+
+            foreach ($transactions as $t) {
+                array_push($winners, $t->email);
+            }
+
+            $check = DB::table('lotteries')->where([
+                'id' => $lotteryID,
+                'admin_id'=> Auth::user()->id,
+                'isActive' => 1
+            ])->update([
+                'winners' => $winners,
+                'isActive' => 0,
+                'updated_at' => Carbon::now()
+            ]);
+
+            if($check)
+            {
+                return redirect('/user/history/recentLotteries')->with(["success" => "Lottery Opened Successfully"]);
+            }
+            return redirect('/user')->withErrors(["WrongInput" => "No Lottery"]);
+        }
+    }
 
     //======================================================================
     // Buy Lottery by {lotteryID}
@@ -74,10 +118,11 @@ class UserController extends Controller
             'email' => Auth::user()->email
             ])->count();
         
-        // if($myparticipation >= $lotteries[0]->max_tickets)
-        // {
-        //     return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['info' => "Maximum Tickets Purchased"]);
-        // }
+        if($myparticipation >= $lotteries[0]->max_tickets)
+        {
+            return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['info' => "Maximum Tickets Purchased"]);
+        }
+
         if($transactions >= $lotteries[0]->max_participants)
         {
             return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['info' => "Maximum Transaction Achieved"]);
@@ -96,6 +141,16 @@ class UserController extends Controller
 
         if($check == true)
         {
+            //check if the participants are completed, then draw the lottery
+            $transactions = DB::table('transactions')->where([
+                'lottery_id' => $request->route('lotteryId'),
+            ])->count();
+            if($transactions >= $lotteries[0]->max_participants)
+            {
+                $this->OpenLottery($lotteries[0]->id);
+            }
+
+            //otherwise just return with message
             return redirect()->intended('/user/'.$request->route('lotteryId'))->with(['success' => "Bought SuccesFully"]);
         }
 
@@ -131,6 +186,40 @@ class UserController extends Controller
 
 
 
+    //=================================
+    //  Recent Withdraws
+    //=================================
+    public function RecentLotteries(Request $request)
+    {
+        $lotteries = DB::table('lotteries')->whereNotNull('winners')->orderBy('updated_at', 'DESC')->get();
+        return view('user.history')->with(['lotteries' => $lotteries]);
+    }
+
+
+    public function RecentLotteriesMyWinnings(Request $request)
+    {
+        $lotteries = DB::table('lotteries')->whereNotNull('winners')->orderBy('updated_at', 'DESC')->get();
+
+        $myLottery = array();
+
+        for ($i=0; $i < count($lotteries); $i++) { 
+            
+            $filter = json_decode($lotteries[$i]->winners);
+
+            $repeat = false;
+
+            for ($j=0; $j < count($filter); $j++) { 
+                
+                if($filter[$j] == Auth::user()->email && $repeat == false)
+                {
+                    array_push($myLottery, $lotteries[$i]);
+                    $repeat = true;
+                }
+            }
+        }
+
+        return view('user.mywinnings')->with(['lotteries' => $myLottery]);
+    }
 
 
 

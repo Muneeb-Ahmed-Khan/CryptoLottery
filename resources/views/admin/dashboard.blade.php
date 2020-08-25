@@ -4,6 +4,7 @@
 <div class="container">
         <button type="button" style='margin-top: 5px;' data-target="#pop-addLottery" data-toggle="modal" class="btn btn-primary">Add Lottery</button>
         <button type="button" style='margin-top: 5px;' data-target="#pop-deleteLottery" data-toggle="modal" class="btn btn-danger">Delete Lottery</button>
+        <a type="button" href="/admin/history/recentLotteries" style='margin-top: 5px;' class="btn btn-info">History</a>
 </div>
 <br>
     <div class="main-content">
